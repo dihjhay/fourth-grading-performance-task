@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Memory Game</title>
+<style>
+body{font-family:Arial;text-align:center}
+.board{display:grid;grid-template-columns:repeat(4,80px);gap:8px;justify-content:center;margin-top:20px}
+.card{height:80px;background:#4CAF50;color:#fff;font-size:25px;
+display:flex;align-items:center;justify-content:center;cursor:pointer}
+</style>
+</head>
+<body>
+
+<h2>Memory Game</h2>
+<p>Moves: <span id="moves">0</span></p>
+<div class="board" id="board"></div>
+
+<script>
+let icons=["🍎","🍌","🍇","🍓","🍎","🍌","🍇","🍓"];
+let first=null, second=null, moves=0;
+
+icons.sort(()=>0.5-Math.random());
+let board=document.getElementById("board");
+
+icons.forEach(icon=>{
+  let card=document.createElement("div");
+  card.className="card";
+  card.onclick=()=>{
+    if(card.textContent||second) return;
+    card.textContent=icon;
+    if(!first) first=card;
+    else{
+      second=card;
+      moves++;
+      document.getElementById("moves").textContent=moves;
+      if(first.textContent!=second.textContent)
+        setTimeout(()=>{first.textContent="";second.textContent="";first=second=null},700);
+      else first=second=null;
+    }
+  };
+  board.appendChild(card);
+});
+</script>
+
+</body>
+</html>
